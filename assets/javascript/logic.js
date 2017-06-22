@@ -15,18 +15,18 @@ function scrollIt() {
     $('body').scrollTop(0);
 };
 
-$('#radius').on('keydown keyup', function(e){
+$('#radius').on('keydown keyup', function (e) {
     if ($(this).val() > 15
-       && e.keyCode != 46 // delete
-       && e.keyCode != 8 // backspace
-      ) {
-      e.preventDefault();
-      $(this).val(15);
+        && e.keyCode != 46 // delete
+        && e.keyCode != 8 // backspace
+    ) {
+        e.preventDefault();
+        $(this).val(15);
     }
 });
 
 // These are the button events that move the page
-$("#button1").on('click', function(){
+$("#button1").on('click', function () {
     event.preventDefault();
     scrollIt();
     $("#page1").css('display', 'none');
@@ -37,7 +37,7 @@ $("#button1").on('click', function(){
     $("#button2").css('display', 'block');
 });
 
-$("#button2").on("click", function(){
+$("#button2").on("click", function () {
     event.preventDefault();
     scrollIt();
     $("#page2").css('display', 'none');
@@ -46,75 +46,76 @@ $("#button2").on("click", function(){
     // $('#brand').css('margin-left', '0%');
     $("#button2").css('display', 'none');
 
-		var zip = $("#zip").val();
-		var cuisine = $("#cuisine").val();
-		var radius = parseInt(($("#radius").val())*1609.344);
+    var zip = $("#zip").val();
+    var cuisine = $("#cuisine").val();
+    var radius = parseInt(($("#radius").val()) * 1609.344);
 
-		var queryURL = "https://still-oasis-47024.herokuapp.com/api/" 
-						+ zip + "/"  + cuisine + "/" + radius;
-    		$.ajax({
-      			url: queryURL,
-      			method: "GET"
-    		}).done(function(response) {
+    var queryURL = "https://still-oasis-47024.herokuapp.com/api/"
+        + zip + "/" + cuisine + "/" + radius;
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).done(function (response) {
 
-    			var results = response.businesses;
-        			for (var i = 0; i < 5; i++) {
+        var results = response.businesses;
+        for (var i = 0; i < 5; i++) {
 
-   				// These variables hold the query results
-   				var bizPic = results[i].image_url;
-        	var name = results[i].name;
-   				var distance = Math.round((results[i].distance*0.0006214)*100)/100;
-   				var rating = results[i].rating;
-   				var reviewCount = results[i].review_count;
-   				var foodCost = results[i].price;
-   				var neighborhood = results[i].location.address1 + ' ' + results[i].location.address2 + ', ' + results[i].location.city;
-   				var foodType = results[i].categories[0].title;
-   				var foodLat = results[i].coordinates.latitude;
-   				var foodLng = results[i].coordinates.longitude;
-   				var phone = results[i].display_phone;
+            // These variables hold the query results
+            var bizPic = results[i].image_url;
+            var name = results[i].name;
+            var distance = Math.round((results[i].distance * 0.0006214) * 100) / 100;
+            var rating = results[i].rating;
+            var reviewCount = results[i].review_count;
+            var foodCost = results[i].price;
+            var neighborhood = results[i].location.address1 + ' ' + results[i].location.address2 + ', ' + results[i].location.city;
+            var foodType = results[i].categories[0].title;
+            var foodLat = results[i].coordinates.latitude;
+            var foodLng = results[i].coordinates.longitude;
+            var phone = results[i].display_phone;
 
 
-       		// These variables hold the different dividers
-          var eatMe = $("<div class='row'>");
-       	var foodButton = $("<button class='restaurant col-md-12'>")
-  				var restImage = $('<img id="rest-image">')
-					restImage.attr('src', bizPic);
-       		var restClose = $('</img>');
-       		var bizName = $('<p id="name">' + name + '<p/>');
-       		var distDiv = $('<p id="distance">' + distance + ' miles' + '</p>');
-  				var starPower = $('<p id="star-rating">' + rating + ' stars</p>');
-          var reviews = $('<p id="review-count">(' + reviewCount + ' reviews) </p>');
-       		var cost = $('<p id="cost">' + foodCost + '</p>');
-   				var foodLocation = $('<p id="address">' + neighborhood + '</p>');
-   				var foodCat = $('<p id="category">' + foodType + '</p>');
-   				var buttonClose = $('</button>')
-   				var latFood = $("<p id='latt' style='display:none;'>" + foodLat + "</p>");
-   				var lngFood = $("<p id='long' style='display:none;'>" + foodLng + "</p>");
-   				var disPhone = $("<p id='phone' style='display:none;'>" + phone + "</p>");
-   				var eatClose = $('</div>');
+            // These variables hold the different dividers
+            var eatMe = $("<div class='row'>");
+            var foodButton = $("<button class='restaurant col-md-12'>")
+            var restImage = $('<img id="rest-image">')
+            restImage.attr('src', bizPic);
+            var restClose = $('</img>');
+            var bizName = $('<p id="name">' + name + '<p/>');
+            var distDiv = $('<p id="distance">' + distance + ' miles' + '</p>');
+            var starPower = $('<p id="star-rating">' + rating + ' stars</p>');
+            var reviews = $('<p id="review-count">(' + reviewCount + ' reviews) </p>');
+            var cost = $('<p id="cost">' + foodCost + '</p>');
+            var foodLocation = $('<p id="address">' + neighborhood + '</p>');
+            var foodCat = $('<p id="category">' + foodType + '</p>');
+            var buttonClose = $('</button>')
+            var latFood = $("<p id='latt' style='display:none;'>" + foodLat + "</p>");
+            var lngFood = $("<p id='long' style='display:none;'>" + foodLng + "</p>");
+            var disPhone = $("<p id='phone' style='display:none;'>" + phone + "</p>");
+            var eatClose = $('</div>');
 
-       		// This puts everything together and displays it on page 3
- 					foodButton.append(restImage);
- 					foodButton.append(restClose);
- 					foodButton.append(bizName);
- 					foodButton.append(distDiv);
- 					foodButton.append(starPower);
- 					foodButton.append(reviews);
- 					foodButton.append(cost);
- 					foodButton.append(foodLocation);
- 					foodButton.append(foodCat);
- 					foodButton.append(latFood);
- 					foodButton.append(lngFood);
- 					foodButton.append(disPhone);
- 					foodButton.append(buttonClose);
- 					eatMe.append(foodButton);
- 					eatMe.append(eatClose);
-      		$("#page3").append(eatMe);
-    }});
+            // This puts everything together and displays it on page 3
+            foodButton.append(restImage);
+            foodButton.append(restClose);
+            foodButton.append(bizName);
+            foodButton.append(distDiv);
+            foodButton.append(starPower);
+            foodButton.append(reviews);
+            foodButton.append(cost);
+            foodButton.append(foodLocation);
+            foodButton.append(foodCat);
+            foodButton.append(latFood);
+            foodButton.append(lngFood);
+            foodButton.append(disPhone);
+            foodButton.append(buttonClose);
+            eatMe.append(foodButton);
+            eatMe.append(eatClose);
+            $("#page3").append(eatMe);
+        }
+    });
 });
 
 // Note that this function is for any of the #restaurant ids on page 3, there is no button on this page
-$(document).on('click', '.restaurant', function(){
+$(document).on('click', '.restaurant', function () {
     event.preventDefault();
     scrollIt();
     latChoice = parseFloat($(this).find('#latt').text());
@@ -131,7 +132,7 @@ $(document).on('click', '.restaurant', function(){
     $("#button3").css('display', 'block');
 });
 
-$("#button3").on('click', function(){
+$("#button3").on('click', function () {
     event.preventDefault();
     scrollIt();
     $('#date1').text($('#datepicker').val().trim());
@@ -205,7 +206,7 @@ $("#button3").on('click', function(){
 });
 
 // This sets up the event buttons and displays the final page
-$(document).on('click', '#events', function(){
+$(document).on('click', '#events', function () {
     event.preventDefault();
     scrollIt();
     $('#activities').append('<div>2. ' + 'Tom Petty & The Heartbreakers - Cynthia Woods Mitchell Pavillion' + '</div>');
@@ -238,7 +239,7 @@ $(document).on('click', '#events', function(){
 });
 
 
-$("#button5").on('click', function(){
+$("#button5").on('click', function () {
     window.location.reload();
 });
 
@@ -255,16 +256,16 @@ $("#button5").on('click', function(){
 
 
 // This clears the textbox on page 3
-$('.newgif').on('click', function(){
+$('.newgif').on('click', function () {
     $('.newgif').val('');
 })
 
 // This is the datepicker function
-$(function() {
+$(function () {
     $("#datepicker").datepicker({ minDate: 0 });
-    $('#datepicker').on('click', function() {
-    $('#ui-datepicker-div').css('background-color', 'white');
-	});
+    $('#datepicker').on('click', function () {
+        $('#ui-datepicker-div').css('background-color', 'white');
+    });
 });
 
 
@@ -288,6 +289,6 @@ $(function() {
 // }
 
 // This allows the dropdown selection to be added to the input field
-$(document).on('click', '.dropdown-menu li a', function() {
+$(document).on('click', '.dropdown-menu li a', function () {
     $('#event-type').val($(this).html());
 });
